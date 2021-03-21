@@ -31,9 +31,14 @@ class BankFormatter:
     HEADER_ROW_NUM = NotImplemented  # 0-based numbering
     INPUT_DATE_FORMAT = NotImplemented
     OUTPUT_DATE_FORMAT = "%d %b %Y"
+    FINAL_ROWS_TO_SKIP = NotImplemented
+    STOPPING_ROW_NUM = NotImplemented
 
     @classmethod
     def transform(cls):
+        if cls.FINAL_ROWS_TO_SKIP is not NotImplemented:
+            cls.set_stopping_row_num()
+
         with open(cls.get_input_file_path(), mode='r', encoding='utf-8-sig') as input_file:
             csv_reader = csv.reader(input_file, delimiter=',')
 
@@ -44,7 +49,12 @@ class BankFormatter:
                 cls.validate_header_row(header_row)
 
             output_list = []
-            for row in csv_reader:
+            for i, row in enumerate(csv_reader):
+                if cls.STOPPING_ROW_NUM is not NotImplemented:
+                    row_num = (i + 1) + (cls.HEADER_ROW_NUM if cls.HEADER_ROW_NUM is not NotImplemented else 0)
+                    if cls.STOPPING_ROW_NUM == row_num:
+                        break
+
                 # skip empty rows
                 if not row:
                     continue
@@ -66,6 +76,13 @@ class BankFormatter:
                 csv_writer.writerow(row)
 
         print(f"Successfully formatted `{cls.get_input_file_path()}` and saved to `{cls.get_output_file_path()}`.")
+
+    @classmethod
+    def set_stopping_row_num(cls) -> None:
+        with open(cls.get_input_file_path(), mode='r', encoding='utf-8-sig') as input_file:
+            csv_reader = csv.reader(input_file, delimiter=',')
+            row_count = sum(1 for _ in csv_reader)
+            cls.STOPPING_ROW_NUM = row_count - cls.FINAL_ROWS_TO_SKIP
 
     @classmethod
     def get_input_file_path(cls) -> Path:
