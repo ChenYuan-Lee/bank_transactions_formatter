@@ -45,8 +45,14 @@ class BankFormatter:
 
             output_list = []
             for row in csv_reader:
+                # skip empty rows
                 if not row:
-                    continue  # skip empty rows
+                    continue
+
+                # skip rows containing only tabs
+                row = [value.strip('\t') for value in row]
+                if all([value == '' for value in row]):
+                    continue
 
                 output_row = cls.format_single_row(row)
                 output_list.append(output_row)
@@ -78,6 +84,7 @@ class BankFormatter:
         # Construct an enum set for the header row
         header_row_enums = set()
         for col_num, header_name in enumerate(header_row):
+            header_name = header_name.strip('\t')
             header = Header(name=header_name, col_num=col_num)
             enum = cls.__bank_specific_columns__(header)
             header_row_enums.add(enum)
