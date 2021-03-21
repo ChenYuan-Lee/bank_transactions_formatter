@@ -25,14 +25,7 @@ class POSBFormatter(BankFormatter):
     INPUT_DATE_FORMAT = "%d %b %Y"
 
     @classmethod
-    def format_single_row(cls, row: List[str]) -> list:
-        output_row = [None] * len(cls.__consolidated_columns__)
-
-        date_str = row[cls.__bank_specific_columns__.DATE.value.col_num]
-        date = datetime.strptime(date_str, cls.INPUT_DATE_FORMAT)
-        output_row[cls.__consolidated_columns__.DATE.value.col_num] = date
-        output_row[cls.__consolidated_columns__.YEAR_MONTH.value.col_num] = cls.convert_date_to_year_month(date)
-
+    def custom_format_row(cls, row: List[str], output_row: list) -> None:
         transaction_references = row[
             cls.__bank_specific_columns__.TRANSACTION_REF_1.value.col_num:
             cls.__bank_specific_columns__.TRANSACTION_REF_3.value.col_num + 1
@@ -45,10 +38,6 @@ class POSBFormatter(BankFormatter):
 
         output_row[cls.__consolidated_columns__.WITHDRAWAL.value.col_num] = \
             row[cls.__bank_specific_columns__.DEBIT.value.col_num].strip()
-
-        output_row[cls.__consolidated_columns__.BANK.value.col_num] = cls.__bank_name__
-
-        return output_row
 
     @classmethod
     def format_transaction_references(cls, transaction_references: List[str]) -> str:

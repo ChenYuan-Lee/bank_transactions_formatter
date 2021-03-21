@@ -34,7 +34,7 @@ class BankFormatter:
 
     @classmethod
     def transform(cls):
-        with open(cls.get_input_file_path()) as input_file:
+        with open(cls.get_input_file_path(), mode='r', encoding='utf-8-sig') as input_file:
             csv_reader = csv.reader(input_file, delimiter=',')
 
             if cls.HAS_HEADER_ROW:
@@ -50,8 +50,9 @@ class BankFormatter:
 
                 output_row = cls.format_single_row(row)
                 output_list.append(output_row)
-            cls.sort_by_date(output_list)
-            output_list = [cls.get_consolidated_column_names()] + output_list
+
+        cls.sort_by_date(output_list)
+        output_list = [cls.get_consolidated_column_names()] + output_list
 
         with open(cls.get_output_file_path(), mode='w') as output_file:
             csv_writer = csv.writer(output_file, delimiter=',')
@@ -90,12 +91,32 @@ class BankFormatter:
             raise UnexpectedHeaderRow(missing_enums)
 
     @classmethod
-    def format_single_row(cls, row: List[str]):
+    def format_single_row(cls, row: List[str]) -> list:
+        output_row = [None] * len(cls.__consolidated_columns__)
+        cls.format_date_cols(row, output_row)
+        cls.insert_bank_name(output_row)
+        cls.custom_format_row(row, output_row)
+        return output_row
+
+    @classmethod
+    def format_date_cols(cls, row: List[str], output_row: list) -> None:
+        date_str = row[cls.__bank_specific_columns__.DATE.value.col_num]
+        date = datetime.strptime(date_str, cls.INPUT_DATE_FORMAT)
+        output_row[cls.__consolidated_columns__.DATE.value.col_num] = date
+        output_row[cls.__consolidated_columns__.YEAR_MONTH.value.col_num] = \
+            f"{date.year}-{date.month:02d}"  # pad single-digit months with 0
+
+    @classmethod
+    def insert_bank_name(cls, output_row: list) -> None:
+        output_row[cls.__consolidated_columns__.BANK.value.col_num] = cls.__bank_name__
+
+    @classmethod
+    def custom_format_row(cls, row: List[str], output_row: list) -> None:
         raise NotImplementedError
 
     @classmethod
-    def convert_date_to_year_month(cls, date: datetime) -> str:
-        return f"{date.year}-{date.month:02d}"  # pad single-digit months with 0
+    def get_abs_value(cls, value: str) -> float:
+        return abs(float(value))
 
     @classmethod
     def sort_by_date(cls, output_list: list) -> None:
@@ -103,8 +124,3 @@ class BankFormatter:
         for row in output_list:
             row[cls.__consolidated_columns__.DATE.value.col_num] = \
                 datetime.strftime(row[cls.__consolidated_columns__.DATE.value.col_num], cls.OUTPUT_DATE_FORMAT)
-
-# create an enum class which maps to a ConsolidatedColumn object (which contains column num, and name)
-# pass this enum as a class attribute, which can be accessed by the child classes
-# the same enum class concept can be applied to the child class (e.g. DBSColumn object)
-

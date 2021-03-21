@@ -1,7 +1,9 @@
+from formatters.citi_formatter import CitiFormatter
 from formatters.posb_formatter import POSBFormatter
 
 BANK_FORMATTERS = [
     POSBFormatter,
+    CitiFormatter,
 ]
 
 if __name__ == '__main__':
