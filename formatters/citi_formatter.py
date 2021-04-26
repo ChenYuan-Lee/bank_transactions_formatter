@@ -8,7 +8,7 @@ from formatters.bank_formatter import BankFormatter
 class CitiColumns(Enum):
     DATE = Header(col_num=0)
     TRANSACTION = Header(col_num=1)
-    WITHDRAWAL = Header(col_num=2)
+    WITHDRAWAL_OR_DEPOSIT = Header(col_num=2)
 
 
 class CitiFormatter(BankFormatter):
@@ -24,6 +24,12 @@ class CitiFormatter(BankFormatter):
         output_row[cls.__consolidated_columns__.TRANSACTION.value.col_num] = \
             row[cls.__bank_specific_columns__.TRANSACTION.value.col_num]
 
-        output_row[cls.__consolidated_columns__.WITHDRAWAL.value.col_num] = cls.get_abs_value(
-            row[cls.__bank_specific_columns__.WITHDRAWAL.value.col_num]
-        )
+        withdrawal_or_deposit_val = row[cls.__bank_specific_columns__.WITHDRAWAL_OR_DEPOSIT.value.col_num]
+        if cls.is_positive_value(withdrawal_or_deposit_val):
+            output_row[cls.__consolidated_columns__.DEPOSIT.value.col_num] = cls.get_abs_value(
+                withdrawal_or_deposit_val
+            )
+        else:
+            output_row[cls.__consolidated_columns__.WITHDRAWAL.value.col_num] = cls.get_abs_value(
+                withdrawal_or_deposit_val
+            )

@@ -143,6 +143,10 @@ class BankFormatter:
         return abs(float(value))
 
     @classmethod
+    def is_positive_value(cls, value: str) -> bool:
+        return float(value) > 0
+
+    @classmethod
     def sort_by_date(cls, output_list: list) -> None:
         output_list.sort(key=lambda output_row: output_row[cls.__consolidated_columns__.DATE.value.col_num])
         for row in output_list:
