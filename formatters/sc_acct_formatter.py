@@ -2,7 +2,7 @@ from enum import Enum
 from typing import List
 
 from data_models import Header
-from formatters.bank_formatter import BankFormatter
+from formatters.csv_formatter import CSVFormatter
 
 
 class SCAcctColumns(Enum):
@@ -15,7 +15,7 @@ class SCAcctColumns(Enum):
     SGD_EQUIVALENT_BAL = Header(name="SGD Equivalent Balance", col_num=6)
 
 
-class SCAcctFormatter(BankFormatter):
+class SCAcctFormatter(CSVFormatter):
     __bank_specific_columns__ = SCAcctColumns
     __bank_name__ = "SC_Acct"
 

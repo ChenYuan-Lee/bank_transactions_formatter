@@ -1,9 +1,8 @@
-from datetime import datetime
 from enum import Enum
 from typing import List
 
 from data_models import Header
-from formatters.bank_formatter import BankFormatter
+from formatters.csv_formatter import CSVFormatter
 
 
 class POSBColumns(Enum):
@@ -16,7 +15,7 @@ class POSBColumns(Enum):
     TRANSACTION_REF_3 = Header(name="Transaction Ref3", col_num=6)
 
 
-class POSBFormatter(BankFormatter):
+class POSBFormatter(CSVFormatter):
     __bank_specific_columns__ = POSBColumns
     __bank_name__ = "POSB"
 

@@ -2,7 +2,7 @@ from enum import Enum
 from typing import List
 
 from data_models import Header
-from formatters.bank_formatter import BankFormatter
+from formatters.csv_formatter import CSVFormatter
 
 
 class SCCardColumns(Enum):
@@ -12,7 +12,7 @@ class SCCardColumns(Enum):
     SGD_AMT = Header(name="SGD Amount", col_num=3)
 
 
-class SCCardFormatter(BankFormatter):
+class SCCardFormatter(CSVFormatter):
     __bank_specific_columns__ = SCCardColumns
     __bank_name__ = "SC_Card"
 
