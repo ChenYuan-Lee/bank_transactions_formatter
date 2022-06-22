@@ -1,7 +1,8 @@
+import csv
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 from data_models import Header
 from exceptions import UnexpectedHeaderRow
@@ -30,6 +31,10 @@ class BankFormatter:
     HEADER_ROW_NUM = NotImplemented  # 0-based numbering
     INPUT_DATE_FORMAT = NotImplemented
     OUTPUT_DATE_FORMAT = "%d %b %Y"
+
+    @classmethod
+    def transform(cls):
+        raise NotImplementedError
 
     @classmethod
     def get_input_file_path(cls) -> Path:
@@ -73,9 +78,11 @@ class BankFormatter:
     def format_date_cols(cls, row: List[str], output_row: list) -> None:
         date_str = row[cls.__bank_specific_columns__.DATE.value.col_num]
         date = datetime.strptime(date_str, cls.INPUT_DATE_FORMAT)
-        output_row[cls.__consolidated_columns__.DATE.value.col_num] = date
         output_row[cls.__consolidated_columns__.YEAR_MONTH.value.col_num] = \
             f"{date.year}-{date.month:02d}"  # pad single-digit months with 0
+
+        date = datetime.strftime(date, cls.OUTPUT_DATE_FORMAT)
+        output_row[cls.__consolidated_columns__.DATE.value.col_num] = date
 
     @classmethod
     def insert_bank_name(cls, output_row: list) -> None:
@@ -96,6 +103,12 @@ class BankFormatter:
     @classmethod
     def sort_by_date(cls, output_list: list) -> None:
         output_list.sort(key=lambda output_row: output_row[cls.__consolidated_columns__.DATE.value.col_num])
-        for row in output_list:
-            row[cls.__consolidated_columns__.DATE.value.col_num] = \
-                datetime.strftime(row[cls.__consolidated_columns__.DATE.value.col_num], cls.OUTPUT_DATE_FORMAT)
+
+    @classmethod
+    def write_to_csv(cls, output_list: List[list], output_file_path: Optional[str] = None):
+        fp = output_file_path or cls.get_output_file_path()
+        with open(fp, mode='w') as output_file:
+            csv_writer = csv.writer(output_file, delimiter=',')
+            for row in output_list:
+                csv_writer.writerow(row)
+        print(f"Successfully saved to `{fp}`.")

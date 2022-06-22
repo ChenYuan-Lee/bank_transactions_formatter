@@ -44,12 +44,7 @@ class CSVFormatter(BankFormatter):
         cls.sort_by_date(output_list)
         output_list = [cls.get_consolidated_column_names()] + output_list
 
-        with open(cls.get_output_file_path(), mode='w') as output_file:
-            csv_writer = csv.writer(output_file, delimiter=',')
-            for row in output_list:
-                csv_writer.writerow(row)
-
-        print(f"Successfully formatted `{cls.get_input_file_path()}` and saved to `{cls.get_output_file_path()}`.")
+        cls.write_to_csv(output_list)
 
     @classmethod
     def set_stopping_row_num(cls) -> None:
