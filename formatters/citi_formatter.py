@@ -2,7 +2,7 @@ from enum import Enum
 from typing import List
 
 from data_models import Header
-from formatters.bank_formatter import BankFormatter
+from formatters.csv_formatter import CSVFormatter
 
 
 class CitiColumns(Enum):
@@ -11,7 +11,7 @@ class CitiColumns(Enum):
     WITHDRAWAL_OR_DEPOSIT = Header(col_num=2)
 
 
-class CitiFormatter(BankFormatter):
+class CitiFormatter(CSVFormatter):
     __bank_specific_columns__ = CitiColumns
     __bank_name__ = "Citi"
 
