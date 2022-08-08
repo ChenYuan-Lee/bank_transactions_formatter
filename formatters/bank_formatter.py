@@ -81,7 +81,6 @@ class BankFormatter:
         output_row[cls.__consolidated_columns__.YEAR_MONTH.value.col_num] = \
             f"{date.year}-{date.month:02d}"  # pad single-digit months with 0
 
-        date = datetime.strftime(date, cls.OUTPUT_DATE_FORMAT)
         output_row[cls.__consolidated_columns__.DATE.value.col_num] = date
 
     @classmethod
@@ -101,8 +100,11 @@ class BankFormatter:
         return float(value) > 0
 
     @classmethod
-    def sort_by_date(cls, output_list: list) -> None:
+    def sort_by_and_format_date(cls, output_list: list) -> None:
         output_list.sort(key=lambda output_row: output_row[cls.__consolidated_columns__.DATE.value.col_num])
+        for output_row in output_list:
+            output_row[cls.__consolidated_columns__.DATE.value.col_num] = \
+                datetime.strftime(output_row[cls.__consolidated_columns__.DATE.value.col_num], cls.OUTPUT_DATE_FORMAT)
 
     @classmethod
     def write_to_csv(cls, output_list: List[list], output_file_path: Optional[str] = None):

@@ -41,7 +41,7 @@ class CSVFormatter(BankFormatter):
                 output_row = cls.format_single_row(row)
                 output_list.append(output_row)
 
-        cls.sort_by_date(output_list)
+        cls.sort_by_and_format_date(output_list)
         output_list = [cls.get_consolidated_column_names()] + output_list
 
         cls.write_to_csv(output_list)
