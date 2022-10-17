@@ -25,11 +25,13 @@ class CitiStatementFormatter(BankFormatter):
         year = input("Input statement year (YYYY): ")
         with open(cls.get_input_file_path()) as f:
             lines = f.readlines()
-        output_list = [cls.get_consolidated_column_names()]
+        output_list = []
         for line in lines:
             row = cls.prep_single_row(line=line, year=year)
             output_row = cls.format_single_row(row)
             output_list.append(output_row)
+        cls.sort_by_and_format_date(output_list)
+        output_list = [cls.get_consolidated_column_names()] + output_list
         cls.write_to_csv(output_list=output_list, output_file_path='output_files/citi_statement.csv')
 
     @classmethod
