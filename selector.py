@@ -15,5 +15,7 @@ class Selector:
             if os.path.isfile(fp):
                 existing_files.append(fp)
                 selected_formatters.append(formatter)
+            else:
+                print(f'`{fp}` not found, skipping.')
         FileDTChecker.transform(existing_files)
         return selected_formatters
