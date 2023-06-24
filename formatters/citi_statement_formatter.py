@@ -1,5 +1,7 @@
+import os
 import re
 from enum import Enum
+from pathlib import Path
 from typing import List, Union, Tuple
 
 from data_models import Header
@@ -32,7 +34,7 @@ class CitiStatementFormatter(BankFormatter):
             output_list.append(output_row)
         cls.sort_by_and_format_date(output_list)
         output_list = [cls.get_consolidated_column_names()] + output_list
-        cls.write_to_csv(output_list=output_list, output_file_path='output_files/citi_statement.csv')
+        cls.write_to_csv(output_list=output_list)
 
     @classmethod
     def prep_single_row(
@@ -80,3 +82,8 @@ class CitiStatementFormatter(BankFormatter):
         else:
             prefix = "SG "  # e.g. "SG 5.28"
             return False, float(transaction_value_str[len(prefix):])
+
+    @classmethod
+    def get_output_file_path(cls) -> Path:
+        filename, _ = os.path.splitext(super().get_output_file_path())
+        return Path(filename + '.csv')

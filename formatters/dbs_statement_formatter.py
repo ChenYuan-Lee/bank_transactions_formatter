@@ -1,4 +1,6 @@
+import os
 from enum import Enum
+from pathlib import Path
 from typing import List
 
 from data_models import Header
@@ -32,7 +34,7 @@ class DBSStatementFormatter(BankFormatter):
             output_list.append(output_row)
         cls.sort_by_and_format_date(output_list)
         output_list = [cls.get_consolidated_column_names()] + output_list
-        cls.write_to_csv(output_list=output_list, output_file_path='output_files/dbs_statement.csv')
+        cls.write_to_csv(output_list=output_list)
 
     @classmethod
     def prep_single_row(cls, date_str: str, transaction_desc: str, amount_str: str):
@@ -53,3 +55,8 @@ class DBSStatementFormatter(BankFormatter):
             output_row[cls.__consolidated_columns__.DEPOSIT.value.col_num] = float(transact_amt[:-2])
         else:
             output_row[cls.__consolidated_columns__.WITHDRAWAL.value.col_num] = float(transact_amt)
+
+    @classmethod
+    def get_output_file_path(cls) -> Path:
+        filename, _ = os.path.splitext(super().get_output_file_path())
+        return Path(filename + '.csv')

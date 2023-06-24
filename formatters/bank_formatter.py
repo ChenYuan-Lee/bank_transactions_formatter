@@ -2,7 +2,7 @@ import csv
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
 from data_models import Header
 from exceptions import UnexpectedHeaderRow
@@ -107,8 +107,8 @@ class BankFormatter:
                 datetime.strftime(output_row[cls.__consolidated_columns__.DATE.value.col_num], cls.OUTPUT_DATE_FORMAT)
 
     @classmethod
-    def write_to_csv(cls, output_list: List[list], output_file_path: Optional[str] = None):
-        fp = output_file_path or cls.get_output_file_path()
+    def write_to_csv(cls, output_list: List[list]):
+        fp = cls.get_output_file_path()
         with open(fp, mode='w') as output_file:
             csv_writer = csv.writer(output_file, delimiter=',')
             for row in output_list:
