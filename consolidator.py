@@ -17,14 +17,17 @@ class Consolidator:
 
     @classmethod
     def transform(cls):
+        output_filepaths = []
+        for output_file in os.listdir(OUTPUT_DIR):
+            output_fp = os.path.join(OUTPUT_DIR, output_file)
+            output_filepaths.append(output_fp)
+            cls.process_file_datetime(output_fp)
+        cls.raise_large_datetime_delta()
         with open(CONSOLIDATED_FP, 'w') as consolidated_file:
-            for output_file in os.listdir(OUTPUT_DIR):
-                output_fp = os.path.join(OUTPUT_DIR, output_file)
-                cls.process_file_datetime(output_fp)
+            for output_fp in output_filepaths:
                 with open(output_fp) as f:
                     next(f)  # remove repeated header
                     shutil.copyfileobj(f, consolidated_file)
-        cls.raise_large_datetime_delta()
 
     @classmethod
     def process_file_datetime(cls, filepath: str):
