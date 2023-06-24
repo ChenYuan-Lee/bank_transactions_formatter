@@ -13,3 +13,8 @@
 ### DBS Credit Card
 1. View transaction history
 2. Copy transactions from website and paste into `dbs_statement.txt`
+
+
+## TODOs
+1. Use logging instead of print
+2. Use enum (with @unique) to define file names to detect name collision
