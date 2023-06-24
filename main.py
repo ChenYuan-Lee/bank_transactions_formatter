@@ -1,3 +1,4 @@
+from consolidator import Consolidator
 from formatters.citi_formatter import CitiFormatter
 from formatters.citi_statement_formatter import CitiStatementFormatter
 from formatters.dbs_statement_formatter import DBSStatementFormatter
@@ -19,3 +20,4 @@ BANK_FORMATTERS = [
 if __name__ == '__main__':
     for bank_formatter in BANK_FORMATTERS:
         bank_formatter.transform()
+    Consolidator.transform()
