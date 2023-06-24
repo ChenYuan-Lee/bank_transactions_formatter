@@ -6,3 +6,10 @@
 4. Create 2 folders in the root directory: `input_files` & `output_files`
     * Place the downloaded transaction-history or e-statement files into the `input_files` folder
 5. Run `main.py`
+
+
+## Files Download Procedure
+
+### DBS Credit Card
+1. View transaction history
+2. Copy transactions from website and paste into `dbs_statement.txt`
