@@ -25,3 +25,4 @@ class Consolidator:
                 with open(output_fp) as f:
                     next(f)  # remove repeated header
                     shutil.copyfileobj(f, consolidated_file)
+        print(f'Successfully saved to `{CONSOLIDATED_FP}`.')
