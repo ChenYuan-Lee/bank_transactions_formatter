@@ -6,6 +6,7 @@ from formatters.hsbc_formatter import HSBCFormatter
 from formatters.posb_formatter import POSBFormatter
 from formatters.sc_acct_formatter import SCAcctFormatter
 from formatters.sc_card_formatter import SCCardFormatter
+from selector import Selector
 
 BANK_FORMATTERS = [
     CitiFormatter,
@@ -18,6 +19,7 @@ BANK_FORMATTERS = [
 ]
 
 if __name__ == '__main__':
-    for bank_formatter in BANK_FORMATTERS:
+    selected_formatters = Selector.transform(formatters=BANK_FORMATTERS)
+    for bank_formatter in selected_formatters:
         bank_formatter.transform()
-    Consolidator.transform()
+    Consolidator.transform(formatters=selected_formatters)
