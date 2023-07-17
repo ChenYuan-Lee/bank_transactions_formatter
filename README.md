@@ -12,8 +12,13 @@
 
 ### DBS Credit Card
 1. View transaction history
-2. Copy transactions from website and paste into `dbs_statement.txt`
+2. Copy transactions from website and paste into `dbs_statement.txt` (each transaction record is expected to span 3 lines)
 
+### HSBC Credit Card
+1. Select credit card
+2. Select `Search and filter`, key in the desired date range, select `Search`
+3. Scroll down and click `Download`
+4. Rename downloaded file as `hsbc.csv` and place it within the `input_files` folder
 
 ## TODOs
 1. Use logging instead of print
