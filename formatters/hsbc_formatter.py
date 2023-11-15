@@ -1,3 +1,4 @@
+import locale
 from enum import Enum
 from typing import List
 
@@ -24,7 +25,8 @@ class HSBCFormatter(CSVFormatter):
         output_row[cls.__consolidated_columns__.TRANSACTION.value.col_num] = \
             row[cls.__bank_specific_columns__.DESCRIPTION.value.col_num]
 
-        deposit_or_withdrawal = row[cls.__bank_specific_columns__.DEPOSIT_OR_WITHDRAWAL.value.col_num]
+        deposit_or_withdrawal: str = row[cls.__bank_specific_columns__.DEPOSIT_OR_WITHDRAWAL.value.col_num]
+        deposit_or_withdrawal: float = locale.atof(deposit_or_withdrawal)
         if cls.is_positive_value(deposit_or_withdrawal):
             output_row[cls.__consolidated_columns__.DEPOSIT.value.col_num] = \
                 cls.get_abs_value(deposit_or_withdrawal)

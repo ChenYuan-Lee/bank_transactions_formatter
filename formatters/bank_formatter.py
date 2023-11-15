@@ -1,4 +1,5 @@
 import csv
+import locale
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
@@ -9,6 +10,8 @@ from exceptions import UnexpectedHeaderRow
 
 INPUT_FILES_DIRECTORY = "input_files"
 OUTPUT_FILES_DIRECTORY = "output_files"
+
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
 
 class ConsolidatedColumns(Enum):
@@ -92,11 +95,11 @@ class BankFormatter:
         raise NotImplementedError
 
     @classmethod
-    def get_abs_value(cls, value: str) -> float:
+    def get_abs_value(cls, value: str | float) -> float:
         return abs(float(value))
 
     @classmethod
-    def is_positive_value(cls, value: str) -> bool:
+    def is_positive_value(cls, value: str | float) -> bool:
         return float(value) > 0
 
     @classmethod

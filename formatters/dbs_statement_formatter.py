@@ -8,9 +8,6 @@ from data_models import Header
 from formatters.bank_formatter import BankFormatter
 
 
-locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
-
-
 class DBSStatementColumns(Enum):
     DATE = Header(col_num=0)
     TRANSACTION = Header(col_num=1)
