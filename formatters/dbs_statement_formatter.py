@@ -1,3 +1,4 @@
+import locale
 import os
 from enum import Enum
 from pathlib import Path
@@ -5,6 +6,9 @@ from typing import List
 
 from data_models import Header
 from formatters.bank_formatter import BankFormatter
+
+
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
 
 class DBSStatementColumns(Enum):
@@ -49,12 +53,12 @@ class DBSStatementFormatter(BankFormatter):
         output_row[cls.__consolidated_columns__.TRANSACTION.value.col_num] = \
             row[DBSStatementColumns.TRANSACTION.value.col_num]
 
-        transact_amt = row[cls.__bank_specific_columns__.WITHDRAWAL_OR_DEPOSIT.value.col_num]
-        transact_amt = transact_amt.strip(cls.CURRENCY_PREFIX)
-        if transact_amt[-2:] == 'cr':
-            output_row[cls.__consolidated_columns__.DEPOSIT.value.col_num] = float(transact_amt[:-2])
+        transact_amt: str = row[cls.__bank_specific_columns__.WITHDRAWAL_OR_DEPOSIT.value.col_num]
+        transact_amt: str = transact_amt.strip(cls.CURRENCY_PREFIX)
+        if transact_amt[-3:] == ' cr':
+            output_row[cls.__consolidated_columns__.DEPOSIT.value.col_num] = locale.atof(transact_amt[:-3])
         else:
-            output_row[cls.__consolidated_columns__.WITHDRAWAL.value.col_num] = float(transact_amt)
+            output_row[cls.__consolidated_columns__.WITHDRAWAL.value.col_num] = locale.atof(transact_amt)
 
     @classmethod
     def get_output_file_path(cls) -> Path:
