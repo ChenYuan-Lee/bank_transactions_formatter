@@ -20,6 +20,9 @@
 3. Scroll down and click `Download`
 4. Rename downloaded file as `hsbc.csv` and place it within the `input_files` folder
 
+### UOB Credit Card / Account
+1. Copy transactions from website and paste into `uob_card.txt` / `uob_acct.txt`
+
 ## TODOs
 1. Use logging instead of print
 2. Use enum (with @unique) to define file names to detect name collision
