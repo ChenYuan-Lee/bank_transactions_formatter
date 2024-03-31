@@ -8,6 +8,7 @@ class CSVFormatter(BankFormatter):
     FINAL_ROWS_TO_SKIP = NotImplemented
     STOPPING_ROW_NUM = NotImplemented
 
+    # TODO: refactor this to support processing of ConsolidatedRecords (subclasses will need refactoring too)
     @classmethod
     def transform(cls):
         if cls.FINAL_ROWS_TO_SKIP is not NotImplemented:

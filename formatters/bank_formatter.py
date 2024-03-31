@@ -74,7 +74,7 @@ class BankFormatter:
         # Construct an enum set for the header row
         header_row_enums = set()
         for col_num, header_name in enumerate(header_row):
-            header_name = header_name.strip('\t')
+            header_name = header_name.strip('\t ')  # strip tabs, extra spaces
             header = Header(name=header_name, col_num=col_num)
             enum = cls.__bank_specific_columns__(header)
             header_row_enums.add(enum)
