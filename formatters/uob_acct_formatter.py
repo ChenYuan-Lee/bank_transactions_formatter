@@ -2,10 +2,10 @@ import re
 from datetime import datetime
 from typing import List
 
-from formatters.txt_formatter import ConsolidatedRecord, TxtFormatter
+from formatters.bank_formatter import BankFormatter, ConsolidatedRecord
 
 
-class UobAcctFormatter(TxtFormatter):
+class UobAcctFormatter(BankFormatter):
     __bank_name__ = "UOB Account"
 
     FILE_NAME = "uob_acct.txt"
@@ -31,7 +31,7 @@ class UobAcctFormatter(TxtFormatter):
 
         final_record = cls.build_record(lines[start:i])
         records.append(final_record)
-        cls.records_to_csv(records)
+        cls.consolidated_records_to_csv(records)
 
     @classmethod
     def build_record(cls, lines: List[str]):

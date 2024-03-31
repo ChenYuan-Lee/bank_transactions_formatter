@@ -1,9 +1,9 @@
 from datetime import datetime
 
-from formatters.txt_formatter import ConsolidatedRecord, TxtFormatter
+from formatters.bank_formatter import BankFormatter, ConsolidatedRecord
 
 
-class UobCardFormatter(TxtFormatter):
+class UobCardFormatter(BankFormatter):
     __bank_name__ = "UOB Credit Card"
 
     FILE_NAME = "uob_card.txt"
@@ -26,7 +26,7 @@ class UobCardFormatter(TxtFormatter):
 
             records.append(record)
 
-        cls.records_to_csv(records)
+        cls.consolidated_records_to_csv(records)
 
     @classmethod
     def build_record_for_credit(cls, line: str):
