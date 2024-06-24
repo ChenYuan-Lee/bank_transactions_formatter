@@ -23,6 +23,12 @@
 ### UOB Credit Card / Account
 1. Copy transactions from website and paste into `uob_card.txt` / `uob_acct.txt`
 
+### SC Credit Card
+1. Select credit card
+2. Click `Refine Search` if required
+3. Click `Download & Print`, then `Download as CSV`
+4. Rename downloaded CSV to `sc_card.csv`
+
 ## TODOs
 1. Use logging instead of print
 2. Use enum (with @unique) to define file names to detect name collision
