@@ -79,7 +79,7 @@ class DbsAcctFormatter(CSVFormatter):
         deposit = row[cls.__bank_specific_columns__.CREDIT.value.col_num]
         deposit = 0 if deposit == " " else deposit
         withdrawal = row[cls.__bank_specific_columns__.DEBIT.value.col_num]
-        withdrawal = 0 if deposit == " " else deposit
+        withdrawal = 0 if withdrawal == " " else withdrawal
         return ConsolidatedRecord(
             date=date,
             transaction=transaction,
