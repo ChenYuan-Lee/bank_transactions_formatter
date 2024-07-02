@@ -5,6 +5,7 @@ from enum import Enum
 from pathlib import Path
 from typing import List, Optional
 
+from pydantic.class_validators import validator
 from pydantic.main import BaseModel
 
 from data_models import Header
@@ -22,6 +23,16 @@ class ConsolidatedRecord(BaseModel):
     deposit: Optional[float]
     withdrawal: Optional[float]
     bank: str
+
+    @validator('deposit', 'withdrawal', pre=True)
+    def remove_comma(cls, value):
+        if value is None:
+            return
+
+        if isinstance(value, str):
+            value = value.replace(',', '')
+
+        return float(value)
 
     @property
     def year_month(self):
