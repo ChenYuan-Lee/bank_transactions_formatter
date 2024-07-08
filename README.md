@@ -15,10 +15,11 @@
 2. Copy transactions from website and paste into `dbs_statement.txt` (each transaction record is expected to span 3 lines)
 
 ### HSBC Credit Card
-1. Select credit card
-2. Select `Search and filter`, key in the desired date range, select `Search`
-3. Scroll down and click `Download`
-4. Rename downloaded file as `hsbc.csv` and place it within the `input_files` folder
+1. Select credit card, click `Pay and manage` > `eStatement`, then download the latest statement (PDF file)
+2. Around the top part of the PDF file, locate the statement period.
+3. Select `Search and filter`, key in the desired date range corresponding to the statement period, then click `Search`
+4. Scroll down and click `Download`
+5. Rename downloaded file as `hsbc.csv` and place it within the `input_files` folder
 
 ### UOB Credit Card / Account
 1. Copy transactions from website and paste into `uob_card.txt` / `uob_acct.txt`
