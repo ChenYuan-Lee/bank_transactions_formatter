@@ -23,6 +23,7 @@
 
 ### UOB Credit Card / Account
 1. Copy transactions from website and paste into `uob_card.txt` / `uob_acct.txt`
+2. For credit (CR) transactions, ensure that they are exactly 1 line each. If needed, manually update the input text file accordingly. 
 
 ### SC Credit Card
 1. Select credit card
